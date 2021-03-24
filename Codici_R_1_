@@ -22,3 +22,11 @@ plot(p224r63_2011$B1_sre)     #plotaggio della banda di colore usata
 cl <- colorRampPalette(c("red", "pink", "light blue")) (100)
 plot (p224r63_2011, col=cl)
 plot(p224r63_2011$B1_sre)
+
+# plot the first four bands of Landsat
+par(mfrow=c(4,1))
+plot(p224r63_2011$B1_sre)
+plot(p224r63_2011$B2_sre)
+plot(p224r63_2011$B3_sre)
+plot(p224r63_2011$B4_sre)
+1:23:40
