@@ -1,6 +1,6 @@
 # Prova con mappe che cambiano colore e altro
 
-
+library(raster)
 setwd("C:/lab/")
 install.packages("raster")
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
