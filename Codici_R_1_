@@ -47,3 +47,35 @@ plot(p224r63_2011$B2_sre, col=clg)
 clr <- colorRampPalette(c("dark red","red","pink")) (100)
 plot(p224r63_2011$B3_sre, col=clr)
 
+
+
+#26 marzo 2021
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")   #ColoriRGB #schemaRGB(ossia a colori naturali)
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")    #coloriRGB con schemi differenti (più rosso)(lunghezze d'onda "sballate", non visibili per noi ad occhio nudo)
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")     #piùverde.Le aree forestali diventano verde lucente
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")     #coloreblufavorito
+par(mfrow=c(2,2))  #(e dopo bisogna inserire quei 4 comandi prima, SENZA CHIUDERE
+
+#comefefaefarepdfsuR!!!
+pdf("il_mio_primo_pdf_con_R.pdf")
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
+
+
+
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")  #colori che permettono di visualizzare un'immagine incredibilmente dettagliata (si distinguono le zone forestali da quelle umide, dai campi in maniera molto più discriminante)
+
+
+# par natural colours, flase colours, and false colours with histogram stretching
+par(mfrow=c(3,1))
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+
+
+dev.off()
+install.packages("RStoolbox")   #intallamento di un altro pacchetto per R
