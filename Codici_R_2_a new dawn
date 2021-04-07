@@ -5,3 +5,27 @@
 
 library(raster)
 setwd("C:/lab/greenland")
+
+lst_2000 <- raster("lst_2000.tif")   #per importare il dataset su R
+plot(lst_2000)                    #per plottare e far comparire l'immagine
+lst_2005 <- raster("lst_2005.tif")    #facciamo la stessa cosa con gli altri file tif
+plot(lst_2005) 
+lst_2010 <- raster("lst_2010.tif")    
+plot(lst_2010) 
+lst_2015 <- raster("lst_2015.tif")    
+plot(lst_2015) 
+
+par(mfrow=c(2,2))    #per far comparire le 4 immagini assieme come nel nostro solito
+plot(lst_2000)  
+plot(lst_2005) 
+plot(lst_2010) 
+plot(lst_2015) 
+
+rlist <- list.files(pattern="lst")     #permette di creare una lista di file (in questo caso vengono raggruppati tutti i file lst)
+rlist                                     #ti mostra i file inseriti nella lista
+import <- lapply(rlist,raster)                 #importa singolarmente i file contenuti in rlist
+import                                 #ti fa vedere info sui file importati
+TGr <- stack(import)                  #mette assieme tutti i file
+plot(TGr)                        
+
+plotRGB(TGr, 1, 2, 3, stretch="Lin")             #usando una scala RGB, unisce le prime tre mappe (2000, 2005,2010) del TGr
