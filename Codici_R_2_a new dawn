@@ -29,3 +29,7 @@ TGr <- stack(import)                  #mette assieme tutti i file
 plot(TGr)                        
 
 plotRGB(TGr, 1, 2, 3, stretch="Lin")             #usando una scala RGB, unisce le prime tre mappe (2000, 2005,2010) del TGr
+
+
+install.packages("rasterVis")    #istallazione di nuovo pacchetto
+library(rasterVis) 
