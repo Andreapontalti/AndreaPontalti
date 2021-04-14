@@ -1,0 +1,27 @@
+#####################à#DATI SU COPERNICUS
+
+
+install.packages("ncdf4")   #bisogna installare prima sto pacchetto
+
+
+library(ncdf4)
+library(raster)    #ci serviranno la libreria Raster per leggere i raster come sempre, ma anche la libreria NCD per leggere i file ncd; non serve mettere le "" perché il file ncdf4 è già stato installato
+setwd("C:/lab/")
+cl<-colorRampPalette(c('light blue', 'green', 'red'))(100)
+albedo <- raster("albedobello.nc")     #carichiamo un singolo layer, quindi si usa raster e non brick    
+
+plot(albedo, col=cl)  #sta mappa non si capisce se ci impiega anni per aprirsi o c'è qualche problema di fondo    #also mi sa che è perché pesa troppo, sperem
+
+albedores <- aggregate(albedo, fact=100) #serve per cambiare la quantità di pixel/risoluzione dell'immagine, che sta roba ultrapesante mi sa che non te la aprirà mai se no
+#quel 100 corrisponde al numero di celle raggruppate per formare delle mega-celle più grandi. Con 50 si diminuisce di 2500 volte la risoluzioneeee
+plot(albedores, col=cl)   #confermato che è il pc che fa schifo, il codice funzia
+
+
+test <- raster("~/Downloads/c_gls_LST10-TCI_202104010000_GLOBE_GEO_V2.1.1.nc")
+
+plot(test)
+
+ext <- c(6, 20, 35, 50)
+testc <- crop(test, ext)
+plot(testc)
+#####################################
