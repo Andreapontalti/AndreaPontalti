@@ -30,21 +30,39 @@ plot(TGr)
 
 plotRGB(TGr, 1, 2, 3, stretch="Lin")             #usando una scala RGB, unisce le prime tre mappe (2000, 2005,2010) del TGr
 
+#############################
 
 install.packages("rasterVis")    #istallazione di nuovo pacchetto
 library(rasterVis) 
+setwd("C:/lab/greenland")
+
+rlist <- list.files(pattern="lst")
+rlist
 
 
+import <- lapply(rlist,raster)
+import
 
-#####################à#DATI SU COPERNICUS
-library(ncdf4)
-library(raster)
 
-test <- raster("~/Downloads/c_gls_LST10-TCI_202104010000_GLOBE_GEO_V2.1.1.nc")
+TGr <- stack(import)
+levelplot(TGr)
+TGr
 
-plot(test)
+levelplot(TGr$lst_2000)
+cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
+levelplot(TGr, col.regions=cl)
 
-ext <- c(6, 20, 35, 50)
-testc <- crop(test, ext)
-plot(testc)
-#####################################
+####################################### Melt
+meltlist <- list.files(pattern="melt")
+melt_import <- lapply(meltlist,raster)
+melt <- stack(melt_import)
+melt
+
+levelplot(melt)
+
+melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
+clb <- colorRampPalette(c("blue","white","red"))(100)
+plot(melt_amount, col=clb)
+
+levelplot(melt_amount, col.regions=clb)
+ 
