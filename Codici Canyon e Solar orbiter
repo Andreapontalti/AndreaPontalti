@@ -1,0 +1,38 @@
+##lezione 21 aprile
+#
+instal.packages("RStoolbox")
+
+setwd("C:/lab/")
+library(raster)
+library(RStoolbox)
+
+so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")     #brick serve per pescare un'immagine (o comunque un pacchetto di dati) esterna e inserirla all'interno a R (e gli da anche un nome più semplificato che decidiamo noi usando sta freccia)
+plot(so) #plotta normalmente l'immagine
+plotRGB(so, 1, 2, 3, stretch="lin")     #plotta in base ai colori RGB
+plotRGB(so, 1, 3, 2, stretch="lin")
+
+   #Unsupervised classification#### Tecnica che consiste nel fornire al sistema informatico una serie di input che egli riclassificherà ed organizzerà sulla base di caratteristiche comuni per cercare di effettuare ragionamenti e previsioni sugli input successivi
+   #permette di classificare ad esempio quando una determinata patch del suolo risulta essere X (es. acqua) o Y (es. bosco)
+
+soc <- unsuperClass(so, nClasses=3)  #creiamo una unsupervised classification con 3 classi di colore. il risultante si chiamerà "soc"
+plot(soc$map)   #plottiamo soc
+set.seed(16)
+
+soc <- unsuperClass(so, nClasses=5)
+
+#Unsupervised classification però con 20 classi (che è quello che hai fatto)
+socca <- unsuperClass(so, nClasses=20)    #uso socca e non soc perché se no mi autoelimina quella con 3 classi
+plot(socca$map)
+
+cl <- colorRampPalette(c('yellow','red','black'))(100)  #in questa maniera si può decidere quale gamma di colori utilizzare nella unsupervised classification
+
+sun <- brick("sun.png.jpg")
+lorentz <- brick("lorentz0.jpg")  #PUOI FARLO CON LORENTZ AAAAAAAAAAAAAAAH
+sunny <-unsuperClass(sun, nClasses=8)
+
+rex <- brick("Feather_Tyrannosaurus_Adult_The_Isle.png")
+rexy <-unsuperClass(rex, nClasses=18)
+
+odonato <- brick("b362c426-5d4e-426a-8558-930e8e81fa15.jpg") 
+libro <-unsuperClass(odonato, nClasses=18)
+plot(libro$map)
