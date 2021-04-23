@@ -36,3 +36,35 @@ rexy <-unsuperClass(rex, nClasses=18)
 odonato <- brick("b362c426-5d4e-426a-8558-930e8e81fa15.jpg") 
 libro <-unsuperClass(odonato, nClasses=18)
 plot(libro$map)
+
+
+########## lezione 23 aprile 
+#lavoriamo sul grand canyon
+
+setwd("C:/lab/")
+library(raster)    #inseriamo la solit alibreria
+gc <- brick("gran_canyon.jpg")   #brickiamo l'immagine del gran canyon e chiamiamola gc
+plotRGB(gc, r=1, g=2, b=3, stretch="lin")  #modifichiamo un po' lo stretch dei colori
+plotRGB(gc, r=1, g=2, b=3, stretch="hist") #qui usiamo lo stretch modalità istogramma
+gc2 <- brick("canyon.jpg")
+plotRGB(gc2, r=1, g=2, b=3, stretch="lin")  #modifichiamo un po' lo stretch dei colori
+plotRGB(gc2, r=1, g=2, b=3, stretch="hist") #qui usiamo lo stretch modalità istogramma (sembra più scura, c'è più contrasto)
+
+library(RStoolbox)   #senza sta libreria non funzia nulla rip
+gcc2 <- unsuperClass(gc2, nClasses=2)  #funzione utilizzata per classificare i colori in due classi (in questo caso)
+plot(gcc2$map)
+
+gcc4 <- unsuperClass(gc, nClasses=4)  #qui classifica su 4 classi
+plot(gcc4map)
+
+
+
+
+
+#si possono vedere file/immagini con diversa varianza/variabilità utilizzando delle funzioni. Queste prendono il nome di analisi multivariate
+setwd("C:/lab/")
+library(raster) #questa libreria carica solo un set per volta
+p224r63_2011 <- brick("p224r63_2011_masked.grd")  #brickiamo come solito per caricare l'immagine
+plot(p224r63_2011)
+plot(p224r63_2011$B1_sre, p224r63_2011$B2_sre, col="red", pch=19, cex=2)  #plottiamo in una banda 1 e 2 la foto. Uscirà un piano cartesiano XY con una scia di punti che studiano la varianza dei colori
+pairs(p224r63_2011)  #mette in correlazione tutte le variabili (ossia le bande) della figura. Ne esce un insieme di diagrammi e numeri
