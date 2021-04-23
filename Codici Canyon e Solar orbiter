@@ -30,6 +30,13 @@ sun <- brick("sun.png.jpg")
 lorentz <- brick("lorentz0.jpg")  #PUOI FARLO CON LORENTZ AAAAAAAAAAAAAAAH
 sunny <-unsuperClass(sun, nClasses=8)
 
+puglia <- brick("puglia_merda.png")
+schifo <-unsuperClass(puglia, nClasses=4)
+
+
+mafia <- brick("punta_marina.png") 
+pavoni <-unsuperClass(mafia, nClasses=8)
+
 rex <- brick("Feather_Tyrannosaurus_Adult_The_Isle.png")
 rexy <-unsuperClass(rex, nClasses=18)
 
