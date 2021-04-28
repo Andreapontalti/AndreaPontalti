@@ -75,3 +75,32 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")  #brickiamo come solito per car
 plot(p224r63_2011)
 plot(p224r63_2011$B1_sre, p224r63_2011$B2_sre, col="red", pch=19, cex=2)  #plottiamo in una banda 1 e 2 la foto. Uscirà un piano cartesiano XY con una scia di punti che studiano la varianza dei colori
 pairs(p224r63_2011)  #mette in correlazione tutte le variabili (ossia le bande) della figura. Ne esce un insieme di diagrammi e numeri
+
+
+##### 28 aprile lesìzione
+
+library (raster)
+library(RStoolbox)
+setwd("C:/lab/")
+
+p224r63_2011 <- brick("p224r63_2011_masked.grd")
+p224r63_2011
+pairs(p224r63_2011)  #mostra lo schema di ieri, con indici di correlazione e variazione vari
+p224r63_2011res <- aggregate(p224r63_2011, fact=10)  #aggrega i pixel per diminuire la risoluzione della mappa( ma almeno puoi usare R senza aspettare 5 ore che il pc carica)
+
+par(mfrow=c(2,1))            #questo serviva per aprire più immagini in una singola icona/mappa, non so se ti ricordi dai plot preedenti
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="lin")        #le plottiamo usando i colori RGB
+plotRGB(p224r63_2011res, r=4, g=3, b=2, stretch="lin")  
+
+p224r63_2011res_pca <- rasterPCA(p224r63_2011res)    #dovrebbe generare una nuova immagine tramite questa funzione
+summary(p224r63_2011res_pca$model)   #spiega quasi la totalità della varianza in questo modello (è praticamente un riassunto)
+p224r63_2011res_pca  
+plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="lin")
+
+str(p224r63_2011res_pca)  #fa comparire messaggi buffi..meglio se riguardi la lezione con calma dopo
+
+
+
+
+defor1 <- brick("defor1.png")
+defor2 <- brick("defor2.png")
