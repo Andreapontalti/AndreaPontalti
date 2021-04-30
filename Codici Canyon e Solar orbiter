@@ -104,3 +104,7 @@ str(p224r63_2011res_pca)  #fa comparire messaggi buffi..meglio se riguardi la le
 
 defor1 <- brick("defor1.png")
 defor2 <- brick("defor2.png")
+
+
+
+
