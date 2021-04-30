@@ -1,0 +1,63 @@
+
+###30 aprile
+install.packages("rasterdiv")
+ #uso della riflessione della luce per capire l'indice di vegetazione di una determinata foto (si può estrapolare il tipo di vegetazione, lo status della vegetazione, etc)
+ #In un pixel di vegetazione avremo il massimo di riflettanza nell'infrarosso vicino, mentre avremo il minimo di riflettanza nel rosso (ricontrolla sta roba perché non ho capito nulla)
+ #massimo = 255   minimo = 0
+ 
+setwd("C:/lab/")
+library(raster)
+library(RStoolbox)
+defor1 <- brick("defor1.png")   #carichiamo le due immagini
+defor2 <- brick("defor2.png")
+ 
+par(mfrow=c(2,1))
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")    #plotta le due immagini assieme con i colori RGB
+
+unione <- defor1$defor1.1 - defor1$defor1.2   #in questo mdo vediamo lo stato della vegetazione della prima foto
+
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme  #scegliamo un colore un po' più roffo
+plot(unione, col=cl)  #ANDRE QUESTO SERVE PER PLOTTARE STA ROBA NON QUELLE ROBE MAP$ E COMPAGNIA VARIA NON SO PERCHE MA VABBE RIP RIP RIIIIP
+
+
+plot(unione, col=cl, main="qui dentro scrivi il nome bello che vuoi dare al codice")   
+dvi2 <- defor2$defor2.1 - defor2$defor2.2  #questo fa la stessa roba dello stato della vegetazione ma con la seconda mappa
+plot(dvi2, col=cl, main="DVI at time 2")
+
+
+    
+par(mfrow=c(2,1))
+plot(unione, col=cl, main="DVI at time 1")   #uniamo come solito le due mappa per compararle
+plot(dvi2, col=cl, main="DVI at time 2")
+
+difdvi <- unione - dvi2    #unisce le due mappe per compararle meglio
+
+dev.off()        #facciamo dev.off per "riordinare" la mappa
+cld <- colorRampPalette(c('blue','white','red'))(100)   #qua decidiamo i colori come solito
+plot(difdvi, col=cld)    #vabbè insomma, plottiamo come sempre
+
+
+#come si calcola il DVI(difference vegetation index)? s fa (NIR-RED)/(NIR+RED). Lo scriviamo in questa maniera:
+ndvi1 <- (defor1$defor1.1 - defor1$defor1.2) / (defor1$defor1.1 + defor1$defor1.2)
+plot(ndvi1, col=cl) 
+
+
+ndvi2 <- (defor2$defor2.1 - defor2$defor2.2) / (defor2$defor2.1 + defor2$defor2.2)    #creiamo un'altro DVI, per la seconda immagine però (quindi la defor2)
+plot(ndvi2, col=cl) 
+
+vi <- spectralIndices(defor1, green = 3, red = 2, nir = 1)   #con questo escono fuori un casino di indici spettrali  (15 in totale)
+plot(vi, col=cl)
+
+
+vi2 <- spectralIndices(defor2, green = 3, red = 2, nir = 1)  #facciamo la stessa roba come al solito con l'altra mappa, quindi defor2
+plot(vi2, col=cl)
+
+difndvi <- ndvi1 - ndvi2
+dev.off()
+cld <- colorRampPalette(c('blue','white','red'))(100) 
+plot(difndvi, col=cld)             #sottriamo i colori delle due mappe ndvi1 e ndvi2. La risultante sarà una mappa con macchié più rosse nelle zone più deforestate
+
+
+
+
