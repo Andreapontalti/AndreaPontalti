@@ -58,6 +58,43 @@ dev.off()
 cld <- colorRampPalette(c('blue','white','red'))(100) 
 plot(difndvi, col=cld)             #sottriamo i colori delle due mappe ndvi1 e ndvi2. La risultante sarà una mappa con macchié più rosse nelle zone più deforestate
 
+### lezione 5 maggio 
 
+
+setwd("C:/lab/")
+library(raster)
+library(rasterVis)
+library(rasterdiv)
+library(RStoolbox)
+
+plot(copNDVI)  #fa vedere l'intero globo con la copertura forestale
+
+copNDVI <- reclassify(copNDVI, cbind(253:255, NA))   #vogliamo togliere la massa d'acqua blu perché non ci interessa. con questo codice ce la facciamooooo
+plot(copNDVI)    #ecco ora si vede l'indice di vegetazione boschiva ma senza il macchione blu degli oceani e mari
+
+levelplot(copNDVI)   #con questa mappa si denotano le zone più desertiche/senza vegetazione e più vegetate, usando come indice il livello di evotraspirazione (che sarà alto in ambienti vegetati e nullo in ambienti desertici)
+
+
+install.packages("ggplot2")   #altro pacchetto da installa re riguardante il gg plot
+library(ggplot2)
+
+defor1 <- brick("defor1.png")   #inseriamo con brick l'immagine defor1
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+
+defor2 <- brick("defor2.png") 
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+ggRGB(defor2, r=1, g=2, b=3, stretch="lin")   #in questo compare una sorta di griglia (grazie GG ploooooot)
+
+par(mfrow=c(1,2))
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
+
+install.packages("gridExtra")   #INSTALLA STO PACCHETTO NUOVOOOOOO
+library(gridExtra)
+
+# multiframe with ggplot2 and gridExtra
+p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")     #mette le due immagini assieme con le griglie e ordinate in maniera differente
+p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
+grid.arrange(p1, p2, nrow=2)
 
 
