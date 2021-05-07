@@ -83,7 +83,7 @@ plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
 
 defor2 <- brick("defor2.png") 
 plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
-ggRGB(defor2, r=1, g=2, b=3, stretch="lin")   #in questo compare una sorta di griglia (grazie GG ploooooot)
+ggRGB(defor2, r=1, g=2, b=3, stretch="lin")   #in questo compare una sorta di griglia (grazie GG ploooooot) (sono delle coordinate)
 
 par(mfrow=c(1,2))
 plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
@@ -96,5 +96,53 @@ library(gridExtra)
 p1 <- ggRGB(defor1, r=1, g=2, b=3, stretch="lin")     #mette le due immagini assieme con le griglie e ordinate in maniera differente
 p2 <- ggRGB(defor2, r=1, g=2, b=3, stretch="lin")
 grid.arrange(p1, p2, nrow=2)
+
+
+############7 maggio lezione
+library(raster)
+library(RStoolbox) 
+library(ggplot2)
+library(gridExtra)
+setwd("C:/lab/")
+
+defor1 <- brick("defor1.png")
+defor2 <- brick("defor2.png")
+d1c <- unsuperClass(defor1, nClasses=2)  #questo lo avevamo già fatto, è quello che creava Lorentz
+plot(d1c$map)
+
+d2c <- unsuperClass(defor2, nClasses=2)
+plot(d2c$map)
+
+d2c3 <- unsuperClass(defor2, nClasses=3)
+plot(d2c3$map)
+
+freq(d1c$map)  #calcola la frequenza fra la prima e la seconda classe fra le due immagini (in questo caso, la frequenza totale di foreste è molto alto rispetto al resto (se si somano i due valori si raggiungono le dimensioni totali dell'immagine)
+s1=341292   #s è la dimensione
+ 
+freq(d2c$map) 
+s2=342726   
+
+
+s1 <- 341292 
+prop1 <- freq(d1c$map) / s1
+s2 <- 342726
+prop2 <- freq(d2c$map) / s2   #in questo modo, abbiamo proporzionato i valori dimesnionali, in mdo da essere più accurati e avere dati simili
+
+
+#ora faremo una tabella/dataset per paragonare i dati pre deforestazione e post deforestazione
+cover <- c("forest", "agriculture")
+percent_1992 <- c(89.83, 10.16)  #qui decidiamo le assi e ordinate dei dati
+percent_2006 <- c(52.06, 47.93)
+
+percentages <- data.frame(cover, percent_1992, percent_2006)
+percentages
+
+#ora usiamo ggplot per creare una rappresentazione illustrativa del dato
+par(mfrow=c(1,2))
+p1 <- ggplot(percentages, aes(x=cover, y=percent_2006, color=cover)) + geom_bar(stat="identity", fill="white")
+p2 <- ggplot(percentages, aes(x=cover, y=percent_1992, color=cover)) + geom_bar(stat="identity", fill="white")
+ #ora scrivendo "p1" o "p2" ci verranno fuori dei grafici a barre con le percentuali di land cover
+
+grid.arrange(p1, p2, nrow=1)  #con questa funzione si vedono i due grafici a barre assieme  #QUA NON SI USA PAR PERCHE ESSO FUNZIONA PER I PLOT
 
 
