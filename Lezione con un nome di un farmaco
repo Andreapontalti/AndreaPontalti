@@ -1,0 +1,46 @@
+lezione 21 maggio 2021
+
+setwd("C:/lab/")
+library(raster)
+library(RStoobox)
+library(ggplot2)
+sent <- brick("sentinel.png")
+
+sentpca <- rasterPCA(sent)   #mostra le 4 mappe con la metodologia pca (che serviva per notare il livello di variabilità) #Calculates R-mode PCA for RasterBricks or RasterStacks and returns a RasterBrick with multiple layers of PCA scores.
+plot(sentpca$map)
+
+summary(sentpca$model)
+
+pc1 <- sentpca$map$PC1
+ 
+homo <- focal(pc1,  w=matrix(1/25, nrow=5, ncol=5), fun=sd)     #Calculate focal ("moving window") values for the neighborhood of focal cells using a matrix of weights, perhaps in combination with a function.
+lmao <- colorRampPalette(c('light blue','dark green','pink','magenta','orange','yellow','red'))(100) #facciamo lo studio della deviazione standard come l'altro giorno e decidiamo colore e altre variabili della mappa risultante
+plot(homo, col=lmao) 
+
+
+#c'è un modo per salvare un codice di R che possiamo poi riutilizzare o "regalare"  qualcuno. Scarichiamo il file R da virtuale e salviamolo in LAB. 
+source("source_test_lezione.r")  #usando questa funzione R va a pescare quel file col codice R e lo plotta tutto ue se brav l m' guaglione
+
+install.packages("viridis")
+library(viridis)     #scarichiamo questo nuovo pacchetto necessario per i seguenti processi/funzioni
+
+ggplot() +
+geom_raster(homo, mapping = aes(x = x, y = y, fill = layer))    #ANDRE SE NON METTI IL + NON FUNZIA E TI COMPARE UNA MAPPA GRIGIA #geom_raster creates a coloured heatmap, with two variables acting as the x- and y-coordinates and a third variable mapping onto a colour
+
+ggplot() +
+geom_raster(homo, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis()            #aggiunge la colorazione gialla nella mappa (?)
+
+ggplot() +
+geom_raster(homo, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis()  +
+ggtitle("Standard deviation of PC1 by viridis colour scale")   #altra tipologia di sfumatura con un'altra legenda di colori
+
+[10:36] Duccio Rocchini
+    ggplot() +
+geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) +
+scale_fill_viridis(option ="magma")  +
+ggtitle("Standard deviation of PC1 by viridis colour scale")
+ 
+
+            
