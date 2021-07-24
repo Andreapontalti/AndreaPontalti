@@ -1,8 +1,6 @@
 
 setwd("C:/lab/EN") # Windows
 
- 
-
 # 2. Import the first image (single band)
 # we will select band 1, but the raster function enables to select other single-bands
 # [suggerimento studenti]
@@ -25,10 +23,10 @@ rlist <- list.files(pattern="EN")
 rlist
 
 import <- lapply(rlist,raster)
-import
+import  #importa le suddette foto e mostra varie info su di esse quali la classe, la banda, dimensioni, origine, etc.
 
 EN <- stack(import)
-plot(EN, col=cls)
+plot(EN, col=cls)   #mostra TUTTE le immagini che sono state importate dalla lista creata
 
 
 # 8. Replicate the plot of images 1 and 13 using the stack
@@ -36,7 +34,7 @@ par(mfrow=c(2,1))
 plot(EN$EN_0001, col=cls)
 plot(EN$EN_0013, col=cls)
  
-
+######################àààLezione 16 giugno
 
 
 
