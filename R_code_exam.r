@@ -1,9 +1,18 @@
 #Sunto dei codici R per esame di Telerilevamente geo-ecologico
 
-
+# 1. remote sensing summary first code
+# 2. R code time series second code
+# 3. R code dopernicus third code
+# 4. R code knit R fourth code
+# 5. R code multivariat analysis fifth code 
+# 6. R code classification sixth code
+# 7. R code ggplot2 seventh code
+# 8. R code vegetation index eighth code 
+# 9. R code land cover ninth code
+# 10. R code variability tenth code
 
 ----------------------------------------------------------------------
-#### 1.1 REMOTE SENSING: PRIMI CODICI
+#### # 1. remote sensing summary first code
 
 
 install.packages("raster")
@@ -70,10 +79,6 @@ plot(p224r63_2011$B3_sre, col=clr)
 #ALTRO PLOTTAGGIO IN GRUPPO, CON LE TRE MAPPE INIZIALI CON COLORI MODIFICATI (LA PRIMA CON SFUMATURE DI BLU, L'ALTRA DI VERDE)
 
 
-
-
-
-####### 1.2 COLORI RGB E FUNZIONI RELATIVE AD ESSI
 plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")   #VISUALIZZA LA MAPPA CON COLORI SCHEMA-RGB (SI DECIDE IL LIVELLO DI ROSSO, BLU E VERDE NELLA FOTO)
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")    #VISUALIZZA LA MAPPA CON COLORI RGB, MA CON SCHEMA DIFFERENTE (COLORE MOLTO PIU ROSSO)(lunghezze d'onda "sballate", non visibili per noi ad occhio nudo)
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")    #SCHEMA RGB PIU VERDE. DISCRIMINA MEGLIO LE ZONE FORESTALI
@@ -140,7 +145,7 @@ plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
 #CREAZIONE DI NUOVO PDF NELLA CARTELLA LAB
 
 ----------------------------------------------------------------------------
-####### 2. TIME SERIES ANALYSIS DEL CAMBIO DELLE TEMPERATURE NELLA GROENLANDIA
+####### 2. R code time series second code
 #DATI E CODICI A CURA DI Emanuela Cosma
 
 
@@ -210,8 +215,8 @@ plot(melt_amount, col=clb)
 
 levelplot(melt_amount, col.regions=clb)
 #MOSTRA I PIU LIVELLI DEI PLOT
----------------------------------------------------------------------------
-####### 3. DATI E ANALSIS SU COPERNICUS
+-----------------------------------------------------------------------------------------------------------
+#################################### 3. R code dopernicus third code
 
 
 install.packages("ncdf4")   #bisogna installare prima sto pacchetto
@@ -235,33 +240,27 @@ ext <- c(6, 20, 35, 50)
 testc <- crop(test, ext)
 plot(testc)
 
-###### 3.2 SOLAR ORBITER AND CANYON
-setwd("C:/lab/")
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+################ 4. R code knit R fourth code
+
+setwd("C:/lab/")   #vuol dire SET WORKING DIRECTORY
+install.packages("knitr")   ##pacchetto importante da scaricare
+
+library(knitr)
 library(raster)
-library(RStoolbox)
+library(rasterVis)    ###apriamo varie librerie a caso
+setwd("C:/lab/greenland")
 
-so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")     #brick serve per pescare un'immagine (o comunque un pacchetto di dati) esterna e inserirla all'interno a R (e gli da anche un nome più semplificato che decidiamo noi usando sta freccia)
-plot(so) #plotta normalmente l'immagine
-plotRGB(so, 1, 2, 3, stretch="lin")     #plotta in base ai colori RGB
-plotRGB(so, 1, 3, 2, stretch="lin")
+require(knitr) #funzione analoga a library
+stitch("R_code_greenland.tex.txt", template=system.file("misc", "knitr-template.Rnw", package="knitr"))   #crea automaticamente un report basato su uno script di R e un template
 
-   #UNSUPERVISED CLASSIFICATION: Tecnica che consiste nel fornire al sistema informatico una serie di input che egli riclassificherà ed organizzerà sulla base di caratteristiche comuni per cercare di effettuare ragionamenti e previsioni sugli input successivi
-   #permette di classificare ad esempio quando una determinata patch del suolo risulta essere X (es. acqua) o Y (es. bosco)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-soc <- unsuperClass(so, nClasses=3)  #creiamo una unsupervised classification con 3 classi di colore. il risultante si chiamerà "soc"
-plot(soc$map)   #plottiamo "soc"
-set.seed(16)
-soc <- unsuperClass(so, nClasses=5) #ora lo stesso, ma con 5 classi di colore
-
-#Unsupervised classification però con 20 classi (che è quello che hai fatto)
-socca <- unsuperClass(so, nClasses=20)    #uso socca e non soc perché se no mi autoelimina quella con 3 classi
-plot(socca$map)
-
-cl <- colorRampPalette(c('yellow','red','black'))(100)  
-#in questa maniera si può decidere quale gamma di colori utilizzare nella unsupervised classification
-
-
-#### ORA LAVORIAMO SUL GRAN CANYON
+################ 5. R code multivariat analysis fifth code
 gc <- brick("gran_canyon.jpg")   #brickiamo l'immagine del gran canyon e chiamiamola gc
 plotRGB(gc, r=1, g=2, b=3, stretch="lin")  #modifichiamo un po' lo stretch dei colori
 plotRGB(gc, r=1, g=2, b=3, stretch="hist") #qui usiamo lo stretch modalità istogramma
@@ -305,85 +304,41 @@ plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="lin")
 
 str(p224r63_2011res_pca)  
 #visualizza in modo compatto la struttura di un oggetto R arbitrario
-----------------------------------------------------------------------------------------------------------------------------------
-
-# 5. CODICI KNITR
-
-setwd("C:/lab/")   #vuol dire SET WORKING DIRECTORY
-install.packages("knitr")   ##pacchetto importante da scaricare
-
-library(knitr)
-library(raster)
-library(rasterVis)    ###apriamo varie librerie a caso
-setwd("C:/lab/greenland")
-
-require(knitr) #funzione analoga a library
-stitch("R_code_greenland.tex.txt", template=system.file("misc", "knitr-template.Rnw", package="knitr"))   #crea automaticamente un report basato su uno script di R e un template
+-------------------------------------------------------------------------------------------------------------------------
 
 
----------------------------------------------------------------------------------------------------------------------------------------------------
-#### 6. INDICE DI VEGETAZIONE 
 
-install.packages("rasterdiv")
- #uso della riflessione della luce per capire l'indice di vegetazione di una determinata foto (si può estrapolare il tipo di vegetazione, lo status della vegetazione, etc)
- #In un pixel di vegetazione avremo il massimo di riflettanza nell'infrarosso vicino, mentre avremo il minimo di riflettanza nel rosso (ricontrolla sta roba perché non ho capito nulla)
- #massimo = 255   minimo = 0
- 
+###### 6. R code classification sixth code
+
+
+
 setwd("C:/lab/")
 library(raster)
 library(RStoolbox)
-defor1 <- brick("defor1.png")   #carichiamo le due immagini con i seguenti nomi
-defor2 <- brick("defor2.png")
- 
-par(mfrow=c(2,1))
-plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
-plotRGB(defor2, r=1, g=2, b=3, stretch="lin")    #plotta le due immagini assieme con i colori RGB
 
-unione <- defor1$defor1.1 - defor1$defor1.2   #in questo mdo vediamo lo stato della vegetazione della prima foto
+so <- brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")     #brick serve per pescare un'immagine (o comunque un pacchetto di dati) esterna e inserirla all'interno a R (e gli da anche un nome più semplificato che decidiamo noi usando sta freccia)
+plot(so) #plotta normalmente l'immagine
+plotRGB(so, 1, 2, 3, stretch="lin")     #plotta in base ai colori RGB
+plotRGB(so, 1, 3, 2, stretch="lin")
 
-cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme  #scegliamo un colore un po' più roffo
-plot(unione, col=cl)  
+   #UNSUPERVISED CLASSIFICATION: Tecnica che consiste nel fornire al sistema informatico una serie di input che egli riclassificherà ed organizzerà sulla base di caratteristiche comuni per cercare di effettuare ragionamenti e previsioni sugli input successivi
+   #permette di classificare ad esempio quando una determinata patch del suolo risulta essere X (es. acqua) o Y (es. bosco)
 
+soc <- unsuperClass(so, nClasses=3)  #creiamo una unsupervised classification con 3 classi di colore. il risultante si chiamerà "soc"
+plot(soc$map)   #plottiamo "soc"
+set.seed(16)
+soc <- unsuperClass(so, nClasses=5) #ora lo stesso, ma con 5 classi di colore
 
-plot(unione, col=cl, main="nome codice generico")   
-dvi2 <- defor2$defor2.1 - defor2$defor2.2  #mostra stato della vegetazione, ma della seconda mappa
-plot(dvi2, col=cl, main="DVI at time 2")
+#Unsupervised classification però con 20 classi (che è quello che hai fatto)
+socca <- unsuperClass(so, nClasses=20)    #uso socca e non soc perché se no mi autoelimina quella con 3 classi
+plot(socca$map)
 
-
-    
-par(mfrow=c(2,1))
-plot(unione, col=cl, main="DVI at time 1")   #uniamo come solito le due mappe per compararle
-plot(dvi2, col=cl, main="DVI at time 2")
-
-difdvi <- unione - dvi2    #unisce le due mappe per compararle meglio
-
-dev.off()        #facciamo dev.off per "riordinare" la mappa
-cld <colorRampPalette(c('blue','white','red'))(100)   #qua decidiamo i colori come solito
-plot(difdvi, col=cld)    #vabbè insomma, plottiamo come sempre
+cl <- colorRampPalette(c('yellow','red','black'))(100)  
+#in questa maniera si può decidere quale gamma di colori utilizzare nella unsupervised classification
+-------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-#COME SI CALCOLA IL DVI(difference vegetation index)? si fa (NIR-RED)/(NIR+RED). Lo scriviamo in questa maniera:
-ndvi1 <- (defor1$defor1.1 - defor1$defor1.2) / (defor1$defor1.1 + defor1$defor1.2)
-plot(ndvi1, col=cl) 
-
-
-ndvi2 <- (defor2$defor2.1 - defor2$defor2.2) / (defor2$defor2.1 + defor2$defor2.2)    #creiamo un'altro DVI, per la seconda immagine però (quindi la defor2)
-plot(ndvi2, col=cl) 
-
-vi <- spectralIndices(defor1, green = 3, red = 2, nir = 1)   #con questo escono fuori vari indici spettrali  (15 in totale)
-plot(vi, col=cl)
-
-
-vi2 <- spectralIndices(defor2, green = 3, red = 2, nir = 1)  #facciamo la stessa roba come al solito con l'altra mappa, quindi defor2
-plot(vi2, col=cl)
-
-difndvi <- ndvi1 - ndvi2
-dev.off()
-cld <- colorRampPalette(c('blue','white','red'))(100) 
-plot(difndvi, col=cld)             #sottriamo i colori delle due mappe ndvi1 e ndvi2. La risultante sarà una mappa con macchié più rosse nelle zone più deforestate
-
--------------------------------------------------------------------------------------------------
-### 7. GGPLOT, NDVI AND RELATIVE FUNCTIONS
+################ 7. R code ggplot2 seventh code
 
 setwd("C:/lab/")
 library(raster)
@@ -470,9 +425,74 @@ p2 <- ggplot(percentages, aes(x=cover, y=percent_1992, color=cover)) + geom_bar(
 
 grid.arrange(p1, p2, nrow=1)  #con questa funzione si vedono i due grafici a barre assieme  #NON SI USA PAR PERCHE ESSO FUNZIONA PER I PLOT
 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+################### 8. R code vegetation index eighth code
+
+install.packages("rasterdiv")
+ #uso della riflessione della luce per capire l'indice di vegetazione di una determinata foto (si può estrapolare il tipo di vegetazione, lo status della vegetazione, etc)
+ #In un pixel di vegetazione avremo il massimo di riflettanza nell'infrarosso vicino, mentre avremo il minimo di riflettanza nel rosso (ricontrolla sta roba perché non ho capito nulla)
+ #massimo = 255   minimo = 0
+ 
+setwd("C:/lab/")
+library(raster)
+library(RStoolbox)
+defor1 <- brick("defor1.png")   #carichiamo le due immagini con i seguenti nomi
+defor2 <- brick("defor2.png")
+ 
+par(mfrow=c(2,1))
+plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
+plotRGB(defor2, r=1, g=2, b=3, stretch="lin")    #plotta le due immagini assieme con i colori RGB
+
+unione <- defor1$defor1.1 - defor1$defor1.2   #in questo mdo vediamo lo stato della vegetazione della prima foto
+
+cl <- colorRampPalette(c('darkblue','yellow','red','black'))(100) # specifying a color scheme  #scegliamo un colore un po' più roffo
+plot(unione, col=cl)  
 
 
-######## 7.3 ULTERIORI NDVI CON MONTAGNE ALTOATESINE
+plot(unione, col=cl, main="nome codice generico")   
+dvi2 <- defor2$defor2.1 - defor2$defor2.2  #mostra stato della vegetazione, ma della seconda mappa
+plot(dvi2, col=cl, main="DVI at time 2")
+
+
+    
+par(mfrow=c(2,1))
+plot(unione, col=cl, main="DVI at time 1")   #uniamo come solito le due mappe per compararle
+plot(dvi2, col=cl, main="DVI at time 2")
+
+difdvi <- unione - dvi2    #unisce le due mappe per compararle meglio
+
+dev.off()        #facciamo dev.off per "riordinare" la mappa
+cld <colorRampPalette(c('blue','white','red'))(100)   #qua decidiamo i colori come solito
+plot(difdvi, col=cld)    #vabbè insomma, plottiamo come sempre
+
+
+#COME SI CALCOLA IL DVI(difference vegetation index)? si fa (NIR-RED)/(NIR+RED). Lo scriviamo in questa maniera:
+ndvi1 <- (defor1$defor1.1 - defor1$defor1.2) / (defor1$defor1.1 + defor1$defor1.2)
+plot(ndvi1, col=cl) 
+
+
+ndvi2 <- (defor2$defor2.1 - defor2$defor2.2) / (defor2$defor2.1 + defor2$defor2.2)    #creiamo un'altro DVI, per la seconda immagine però (quindi la defor2)
+plot(ndvi2, col=cl) 
+
+vi <- spectralIndices(defor1, green = 3, red = 2, nir = 1)   #con questo escono fuori vari indici spettrali  (15 in totale)
+plot(vi, col=cl)
+
+
+vi2 <- spectralIndices(defor2, green = 3, red = 2, nir = 1)  #facciamo la stessa roba come al solito con l'altra mappa, quindi defor2
+plot(vi2, col=cl)
+
+difndvi <- ndvi1 - ndvi2
+dev.off()
+cld <- colorRampPalette(c('blue','white','red'))(100) 
+plot(difndvi, col=cld)             #sottriamo i colori delle due mappe ndvi1 e ndvi2. La risultante sarà una mappa con macchié più rosse nelle zone più deforestate
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+######## 9. R code land cover ninth code
 
 setwd("C:/lab/")
 library(raster)
@@ -511,10 +531,7 @@ plot(ndvisd5, col=clsd)             #con questa funzione si allarga la dimension
 sentpca <- rasterPCA(sent)   #analizza la componente princiapale del raster
 plot(sentpca$map)
 summary(sentpca$model)   #mostra il sommario dei dati della mappa sentpca
- 
- 
- 
-####### 7.4 GGPLOT MONTI ALTOATESINI
+
 
 setwd("C:/lab/")
 library(raster)
@@ -550,7 +567,7 @@ ggplot() + geom_raster(pc1sd5, mapping = aes(x = x, y = y, fill = layer)) + scal
 
 
 -------------------------------------------------------------------------
-############### 8. 
+############ 10. R code variability tenth code
 
 setwd("C:/lab/EN")
 library(raster)
@@ -586,7 +603,7 @@ par(mfrow=c(2,1))
 plot(EN$EN_0001, col=cls)
 plot(EN$EN_0013, col=cls)
  
-######################àààLezione 16 giugno
+##Lezione 16 giugno
 
 setwd("C:/lab/")
 library(raster)
