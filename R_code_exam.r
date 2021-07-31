@@ -234,12 +234,6 @@ plot(albedo, col=cl)  #PLOTTA L'IMMAGINE DELL'ALBEDO PRESO DA COPERNICUS
 albedores <- aggregate(albedo, fact=100) #QUESTA FUNZIONE MODIFICA LA QUANTITA DI PIXEL/RISOLUZIONE DELL'IMMAGINE, PER RIDURRE ANCHE IL PESO DEL FILE CHE IN QUESTO CASO è MOLTO PESANTE
 #quel 100 corrisponde al numero di celle raggruppate per formare delle mega-celle più grandi. Con 50 si diminuisce di 2500 volte la risoluzione
 
-test <- raster("~/Downloads/c_gls_LST10-TCI_202104010000_GLOBE_GEO_V2.1.1.nc")
-plot(test)
-ext <- c(6, 20, 35, 50)
-testc <- crop(test, ext)
-plot(testc)
-
 ----------------------------------------------------------------------------------------------------------------------------------
 
 
