@@ -253,14 +253,17 @@ install.packages("knitr")   ##pacchetto importante da scaricare
 library(knitr)
 library(raster)
 library(rasterVis)    ###apriamo varie librerie a caso
-setwd("C:/lab/greenland")
 
 require(knitr) #funzione analoga a library
-stitch("R_code_greenland.tex.txt", template=system.file("misc", "knitr-template.Rnw", package="knitr"))   #crea automaticamente un report basato su uno script di R e un template
+stitch("R_code_greenland.txt", template=system.file("misc", "knitr-template.Rnw", package="knitr"))   #crea automaticamente un report basato su uno script di R e un template
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ################ 5. R code multivariat analysis fifth code
+
+setwd("C:/lab/")
+library(raster)    #inseriamo la solita libreria
+
 gc <- brick("gran_canyon.jpg")   #brickiamo l'immagine del gran canyon e chiamiamola gc
 plotRGB(gc, r=1, g=2, b=3, stretch="lin")  #modifichiamo un po' lo stretch dei colori
 plotRGB(gc, r=1, g=2, b=3, stretch="hist") #qui usiamo lo stretch modalità istogramma
@@ -274,7 +277,7 @@ library(raster)
 gcc2 <- unsuperClass(gc2, nClasses=2)  #funzione utilizzata per classificare i colori in due classi (in questo caso)
 plot(gcc2$map)
 gcc4 <- unsuperClass(gc, nClasses=4)  #qui classifica su 4 classi
-plot(gcc4map)
+plot(gcc$map)
 
 
 #Si possono vedere file/immagini con diversa varianza/variabilità utilizzando delle funzioni. Queste prendono il nome di ANALISI MULTIVARIATE
@@ -497,6 +500,7 @@ plot(difndvi, col=cld)             #sottriamo i colori delle due mappe ndvi1 e n
 setwd("C:/lab/")
 library(raster)
 library(RStoolbox)
+sent <- brick("sentinel.png") #carichiamo l'immagine png di Sentinel su R
 
 plotRGB(sent) #con questo codice si vede l'immagine sentinel con colori di default (=di partenza)
 plotRGB(sent, stretch="Lin")
@@ -510,7 +514,7 @@ red <- sent$sentinel.2
 ndvi <- (nir-red) / (nir+red)  #il dato risultante è l'indice di vegetazione
 plot(ndvi) #plottiamo la mappa ndvi
 
-Similaun <- colorRampPalette(c('black','white','red', 'magenta','green'))(100) #cambiamo la coorazione rampalette di ndvi
+Similaun <- colorRampPalette(c('black','white','red', 'magenta','green'))(100) #cambiamo la colorazione rampalette di ndvi
 plot(ndvi, col=Similaun)    
 
 ndvisd3 <- focal(ndvi, w=matrix(1/9, nrow=3, ncol=3), fun=sd) #formula per calcolare la deviazione standard della immagine
