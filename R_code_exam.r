@@ -60,14 +60,14 @@ plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 plot(p224r63_2011$B3_sre)
 plot(p224r63_2011$B4_sre)
-# PLOTTA LE PRIME QUATTRO BANDE DEI DATI LANDSAT
+# FUNZIONE CHE PLOTTA LE PRIME QUATTRO BANDE DEI DATI LANDSAT, ASSIEME
 
 par(mfrow=c(2,2))
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 plot(p224r63_2011$B3_sre)
 plot(p224r63_2011$B4_sre)
-#ALTRO PLOTTAGGIO IN GRUPPO, MA CON ORDINAMENTO DIFFERENTE
+#ALTRO PLOTTAGGIO IN GRUPPO, MA CON ORDINAMENTO DELLE IMMAGINI DIFFERENTE (ci sono 2 righe e 2 colonne)
     
 par(mfrow=c(2,2))
 clb <- colorRampPalette(c("dark blue","blue","light blue")) (100)
@@ -712,7 +712,12 @@ prop6 <- freq(Aral6$map) / AreaTOT
 Water_Percentage= c(31.3, 26.4, 14.2, 16.7, 12.2, 15.8)
 No_water_Percentage= c(68.7, 73.6, 85.8, 83.3,87.8, 84.2)
 Year= c(2001, 2004, 2008, 2012, 2014, 2018)
-spectrals <- data.frame(Year, Water_Percentage, No_water_Percentage)
+datiacqua <- data.frame(Year, Water_Percentage, No_water_Percentage)
 
-ggplot(spectrals, aes(x=Year)) +
+ggplot(datiacqua, aes(x=Year)) +
  geom_line(aes(y=Water_Percentage), color="blue")
+
+ggplot(datiacqua, aes(x=Year)) +
+ geom_line(aes(y=No_water_Percentage), color="brown
+
+")
